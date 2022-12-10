@@ -6,6 +6,7 @@ const cors = require('cors')
 //Files
 const config = require('../config')
 const db = require('./utils/database') //2222222222
+const initModels = require('./models/initModels')  //3333333
 
 //Initial Config
 
@@ -25,7 +26,10 @@ db.authenticate()
 db.sync()
     .then(() => console.log('Database Synced'))
     .catch(err => console.log(err))
-    
+
+//Initialize my models relations
+initModels()
+// despues de creamos las tablas en dbdiagram en la web crearemos la tabla users y recovery_passwords
 //Ruotes v1
 app.get('/', (req, res) => {
     res.status(200).json({

@@ -1,9 +1,11 @@
 const {DataTypes} = require('sequelize')
+const Users = require('./users.models')
 const db = require('../utils/database')
 
+//la tabla de recoveryPassword es para que los enlaces sean de un solo uso
 const RecoveryPassword = db.define('recovery_password', {
     id: {
-        type: DataType.UUID,
+        type: DataTypes.UUID,
         primaryKey: true
     },
     userId : {
