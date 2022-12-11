@@ -7,6 +7,8 @@ const cors = require('cors')
 const config = require('../config')
 const db = require('./utils/database') //2222222222
 const initModels = require('./models/initModels')  //3333333
+const userRouter = require('./users/users.router') // 4444
+const authRouter = require('./auth/auth.router') // 55555
 
 //Initial Config
 
@@ -40,6 +42,10 @@ app.get('/', (req, res) => {
         }
     })
 })
+
+app.use('/api/v1/users', userRouter) // 4444
+app.use('api/v1/auth', authRouter) // 5555
+
 
 app.listen((config.api.port, () => {
     console.log(`Server started on ${config.api.host}`);

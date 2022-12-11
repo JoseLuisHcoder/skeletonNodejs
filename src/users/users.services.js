@@ -1,4 +1,4 @@
-const userControllers = require('./users,controllers')
+const userControllers = require('./users.controllers')
 
 // todas las personas vana poder hacer un get y un post el delete y update van a estar restringidos
 
@@ -19,7 +19,7 @@ const getUserById = (req, res) => {
             if(data){
                 res.status(200).json(data)
             } else {
-                res.status(404).json({message; 'Invalid ID'})
+                res.status(404).json({message: 'Invalid ID'})
             }
         })
         .catch((err) => {
@@ -74,10 +74,11 @@ const patchUser = (req, res) => {
             })
 }
 
+//el usuario no va poder modificar el email el status y el role, por temas de seguridad, 
 const patchMyUser = (req, res) => {
     const id = req.user.id
     const {firstName, LastName, gender, birthday} = req.body
-    userControllers.updateUser(id, {firstNAme, lastName, gender, birthday})
+    userControllers.updateUser(id, {firstName, lastName, gender, birthday})
         .then(() => {
             res.status(200).json({message:'Your user was edited succesfully'})
         })
@@ -85,4 +86,42 @@ const patchMyUser = (req, res) => {
             res.status(400).json({message:err.message})
         })
 
+}
+
+//solo los admins pueden ejecurlo
+const deleteUser = (req, res) => {
+        const id = req.params.id
+        userControllers.deleteUser(id)
+            .then((data) => {
+                if(data){
+                    res.status(204).json()
+                } else {
+                    res.status(404).json({message:`user with id:${id}, Not found`})
+                }
+            })
+            .catch((err) => {
+                res.status(400).json({message:err.message})
+            })
+}
+
+const deleteMyUser = (req, res) => {
+    const id = req.user.id
+    userControllers.deleteUser(id)
+        .then(() => {
+            res.status(204).json()
+         })
+        .catch((err) => {
+            res.status(400).json({message:err.message})
+        })
+} 
+
+module.exports = {
+    getAllUsers,
+    getMyuser,
+    getUserById,
+    postUser,
+    patchMyUser,
+    patchUser,
+    deleteMyUser,
+    deleteUser
 }
